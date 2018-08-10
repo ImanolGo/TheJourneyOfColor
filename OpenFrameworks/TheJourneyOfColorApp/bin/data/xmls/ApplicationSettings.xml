@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+
+  <of_settings>
+
+    <window title="The Journey of Color App" x="0" y="0" width="1920" height="1200" fullscreen="0" showCursor="1"/>
+    <debug showCursor="1" setVerbose="1"/> 
+
+  </of_settings>
+
+  <textures>
+
+    <texture name="Brush" path="images/general/brush.png"/>  
+
+  </textures>
+
+
+  <colors>
+
+    <color name="BackgroundColor" r="40" g="40" b="43" a="255"/>
+    <color name="CenterBackgroundColor" r="85" g="78" b="68" a="255"/>
+    <color name="EdgeBackgroundColor" r="30" g="30" b="30" a="255"/>
+    <color  name="FrameRectangle" r="90" g="95" b="103" a="255"/>
+
+  </colors>
+
+</settings>
