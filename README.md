@@ -1,6 +1,6 @@
-# TheJourneyOfColor
+# The Journey Of Color
 
-The Journey of color is an installation commissioned to Moritz Waldemeyer where the audience can interact with a light sculpture by showing to the camera an object, picture, etc... The software recognizes the color palette and represents it over the light sculpture.
+The Journey of Color is an installation commissioned to Moritz Waldemeyer where the audience can interact with a light sculpture by showing to the camera an object, picture, etc... The software recognises the color palette and represents it over the light sculpture.
 
 ## Installation
 
