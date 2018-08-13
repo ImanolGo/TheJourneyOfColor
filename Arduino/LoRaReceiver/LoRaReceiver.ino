@@ -25,8 +25,9 @@
 #include "LedsManager.h"
 
 
-LedsManager ledsManager;
-LoraManager loraManager(&ledsManager);
+
+LoraManager loraManager;
+LedsManager ledsManager(&loraManager);
 
 
 void setup() 
@@ -41,7 +42,6 @@ void setup()
 
 void loop() 
 {
-    ledsManager.update();
     loraManager.update();
- 
+    ledsManager.update();
 }
