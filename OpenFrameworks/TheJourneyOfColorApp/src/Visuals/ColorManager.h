@@ -23,6 +23,8 @@
 class ColorManager: public Manager
 {
     
+    static const int NUM_COLORS;
+    
     public:
 
         //! Constructor
@@ -40,12 +42,26 @@ class ColorManager: public Manager
         //! Draw the Color Manager
         void draw();
     
+        int getNumberOfColors() {return m_colorPalette.size();}
+    
+        void setColor(ofColor& color, int index);
+    
+        ofColor getColor(int index);
+    
     
     private:
     
+        void setupColors();
+    
+        void drawColor();
+    
     
     private:
-  
+    
+        typedef  vector< ofColor> ColorPalette;  ///< defines a vector of ofColors
+    
+        ColorPalette            m_colorPalette;
+    
 
 };
 

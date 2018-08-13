@@ -1,5 +1,5 @@
 /*
- *  CameraManager.cpp
+ *  CamManager.cpp
  *  TheJourneyOfColorApp
  *
  *  Created by Imanol Gomez on 10/08/18.
@@ -10,24 +10,25 @@
 
 #include "ofMain.h"
 
-#include "CameraManager.h"
 #include "AppManager.h"
+#include "CamManager.h"
 
 
 
-CameraManager::CameraManager(): Manager()
+
+CamManager::CamManager(): Manager()
 {
     //m_videoPlayer = new ofxAVFVideoPlayer();
 }
 
 
-CameraManager::~CameraManager()
+CamManager::~CamManager()
 {
-    ofLogNotice() <<"CameraManager::Destructor" ;
+    ofLogNotice() <<"CamManager::Destructor" ;
 }
 
 
-void CameraManager::setup()
+void CamManager::setup()
 {
     if(m_initialized)
         return;
@@ -39,20 +40,20 @@ void CameraManager::setup()
     float height  = AppManager::getInstance().getSettingsManager().getAppHeight();
     
     this->setupCamera();
-    this->setupShaders(width,height);
+    this->setupShaders(m_vidGrabber.getWidth(),m_vidGrabber.getHeight());
     
    
     
-    ofLogNotice() <<"CameraManager::initialized" ;
+    ofLogNotice() <<"CamManager::initialized" ;
     
 }
 
 
 
-void CameraManager::setupCamera()
+void CamManager::setupCamera()
 {
-    m_camWidth = 320;  // try to grab at this size.
-    m_camHeight = 240;
+    m_camWidth = 1280;  // try to grab at this size.
+    m_camHeight = 720;
     
     //we can now get back a list of devices.
     vector<ofVideoDevice> devices = m_vidGrabber.listDevices();
@@ -70,27 +71,36 @@ void CameraManager::setupCamera()
     m_vidGrabber.initGrabber(m_camWidth, m_camHeight);
 }
 
-void CameraManager::setupShaders(float width,float height)
+void CamManager::setupShaders(float width,float height)
 {
     this->setupLevels(width, height);
     this->setupBlur(width, height);
 }
 
-void CameraManager::setupLevels(float width, float height)
+void CamManager::setupLevels(float width, float height)
 {
     m_levels.setup(width,height);
 }
 
-void CameraManager::setupBlur(float width, float height)
+void CamManager::setupBlur(float width, float height)
 {
     m_blur.setup(width,height, 10, .2, 4);
     m_blur.setScale(0.0);
 }
 
+void CamManager::setBlurScale(float& value)
+{
+    m_blur.setScale(value);
+}
 
 
+void CamManager::update()
+{
+    this->updateCamera();
+}
 
-void CameraManager::updateCamera()
+
+void CamManager::updateCamera()
 {
     m_vidGrabber.update();
     
@@ -100,7 +110,7 @@ void CameraManager::updateCamera()
 }
 
 
-void CameraManager::drawCamera()
+void CamManager::drawCamera()
 {
     string name = "Camera";
     ofRectangle frame;
@@ -132,7 +142,7 @@ void CameraManager::drawCamera()
 
 
 
-void CameraManager::draw()
+void CamManager::draw()
 {
     this->drawCamera();
 }

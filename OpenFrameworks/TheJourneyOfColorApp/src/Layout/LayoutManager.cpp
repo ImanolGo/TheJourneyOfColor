@@ -64,12 +64,12 @@ void LayoutManager::setupFbos()
     ofPtr<ofFbo> fbo = ofPtr<ofFbo>(new ofFbo());
     fbo->allocate(width, height, GL_RGBA);
     fbo->begin(); ofClear(0);  fbo->end();
-    m_fbos["Video"] = fbo;
+    m_fbos["Camera"] = fbo;
     
     fbo = ofPtr<ofFbo>(new ofFbo());
     fbo->allocate(width, height, GL_RGBA);
     fbo->begin(); ofClear(0);  fbo->end();
-    m_fbos["Leds"] = fbo;
+    m_fbos["Color"] = fbo;
     
 }
 
@@ -152,21 +152,21 @@ void LayoutManager::update()
 
 void LayoutManager::updateFbos()
 {
-    this->updateVideoFbo();
-    this->updateLedsFbo();
+    this->updateCameraFbo();
+    this->updateColorFbo();
 }
 
-void LayoutManager::updateVideoFbo()
+void LayoutManager::updateCameraFbo()
 {
     string name = "Camera";
     this->begin(name);
-    AppManager::getInstance().getCameraManager().draw();
+    AppManager::getInstance().getCamManager().draw();
     this->end(name);
 }
 
 
 
-void LayoutManager::updateLedsFbo()
+void LayoutManager::updateColorFbo()
 {
     float width = AppManager::getInstance().getSettingsManager().getAppWidth();
     float height  = AppManager::getInstance().getSettingsManager().getAppHeight();
@@ -258,21 +258,21 @@ void LayoutManager::draw()
     switch (m_drawMode)
     {
         case DRAW_NORMAL:  this->drawNormal(); break;
-        case DRAW_VIDEO:  this->drawVideo(); break;
-        case DRAW_LEDS:  this->drawLeds(); break;
+        case DRAW_CAMERA:  this->drawCamera(); break;
+        case DRAW_COLOR:  this->drawColor(); break;
         default: this->drawNormal(); break;
     }
    
 }
 
-void LayoutManager::drawVideo()
+void LayoutManager::drawCamera()
 {	
-    m_fbos["Video"]->draw(0,0, ofGetWidth(), ofGetHeight());
+    m_fbos["Camera"]->draw(0,0, ofGetWidth(), ofGetHeight());
 }
 
-void LayoutManager::drawLeds()
+void LayoutManager::drawColor()
 {
-    m_fbos["Leds"]->draw(0,0, ofGetWidth(), ofGetHeight());
+    m_fbos["Color"]->draw(0,0, ofGetWidth(), ofGetHeight());
 }
 
 void LayoutManager::drawNormal()

@@ -1,5 +1,5 @@
 /*
- *  CameraManager.h
+ *  CamManager.h
  *  TheJourneyOfColorApp
  *
  *  Created by Imanol Gomez on 10/08/18.
@@ -13,25 +13,25 @@
 #include "ofxPSLevels.h"
 #include "ofxBlur.h"
 
-//========================== class CameraManager ==============================
+//========================== class CamManager ==============================
 //============================================================================
-/** \class CameraManager CameraManager.h
+/** \class CamManager CamManager.h
  *	\brief Class managing the camera processing
  *	\details it reads the freames from the web camera and process them
  */
 
 
-class CameraManager: public Manager
+class CamManager: public Manager
 {
     
     
 public:
     
     //! Constructor
-    CameraManager();
+    CamManager();
     
     //! Destructor
-    ~CameraManager();
+    ~CamManager();
     
     //! Setup the Video Manager
     void setup();
@@ -83,6 +83,8 @@ private:
     
     ofxPSLevels     m_levels;
     ofxBlur         m_blur;
+    
+    ofFbo           m_fbo;
 
 };
 

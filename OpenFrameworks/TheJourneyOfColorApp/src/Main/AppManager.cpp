@@ -66,7 +66,7 @@ void AppManager::setupManagers()
     m_visualEffectsManager.setup();
     m_layoutManager.setup();
     m_colorManager.setup();
-    m_cameraManager.setup();
+    m_camManager.setup();
     m_serialManager.setup();
     m_keyboardManager.setup();
     
@@ -81,7 +81,7 @@ void AppManager::update()
     m_guiManager.update();
     m_visualEffectsManager.update();
     m_viewManager.update();
-    m_cameraManager.update();
+    m_camManager.update();
     m_colorManager.update();
     m_serialManager.update();
     m_layoutManager.update();

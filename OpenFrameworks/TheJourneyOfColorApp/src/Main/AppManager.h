@@ -62,8 +62,8 @@ public:
     //! Returns the image manager
     ColorManager&  getColorManager() { return m_colorManager; }
     
-    //! Returns the video manager
-    CameraManager&  getCameraManager() { return m_cameraManager; }
+    //! Returns the cam manager
+    CamManager&  getCamManager() { return m_camManager; }
     
     //! Returns the udp manager
     SerialManager&  getSerialManager() { return m_serialManager; }
@@ -109,8 +109,8 @@ private:
     GuiManager               m_guiManager;               ///< Manages the graphical user interface
 
     ColorManager             m_colorManager;             ///< Manages the color palettes
-    CameraManager            m_cameraManager;             ///< Manages the camera processing
-    SerialManager            m_serialManager;                ///< Manages the serial communications
+    CamManager               m_camManager;               ///< Manages the web cam and processing
+    SerialManager            m_serialManager;            ///< Manages the serial communications
    
     
     bool                     m_debugMode;

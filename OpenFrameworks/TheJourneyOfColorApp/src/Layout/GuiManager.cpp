@@ -79,52 +79,62 @@ void GuiManager::setupGuiParameters()
 
 void GuiManager::setupColorsGui()
 {
+    ofxDatGuiFolder* folder = m_gui.addFolder("PALETTE", ofColor::pink);
+    int numColors = AppManager::getInstance().getColorManager().getNumberOfColors();
+    for(int i = 0; i < numColors; i++)
+    {
+        auto color = AppManager::getInstance().getColorManager().getColor(i);
+        string colorName = "COLOR " + ofToString(i);
+        folder->addColorPicker(colorName, color);
+    }
+    // f1->expand();
+    m_gui.addBreak();
     
 }
 
 
 void GuiManager::setupLevelsGui()
 {
-    auto cameraManager = &AppManager::getInstance().getCameraManager();
+    auto camManager = &AppManager::getInstance().getCamManager();
    
     m_contrast.set("Contrast", 1.0, 0.0, 2.0);
-    m_contrast.addListener(cameraManager, &CameraManager::setContrast);
+    m_contrast.addListener(camManager, &CamManager::setContrast);
     m_parameters.add(m_contrast);
     
     m_saturation.set("Saturation", 1.0, 0.0, 2.0);
-    m_saturation.addListener(cameraManager, &CameraManager::setSaturation);
+    m_saturation.addListener(camManager, &CamManager::setSaturation);
     m_parameters.add(m_saturation);
     
     m_brightness.set("Brightness", 1.0, 0.0, 2.0);
-    m_brightness.addListener(cameraManager, &CameraManager::setBrightness);
+    m_brightness.addListener(camManager, &CamManager::setBrightness);
     m_parameters.add(m_brightness);
     
     m_gamma.set("Gamma", 1.0, 0.0, 2.0);
-    m_gamma.addListener(cameraManager, &CameraManager::setGamma);
+    m_gamma.addListener(camManager, &CamManager::setGamma);
     m_parameters.add(m_gamma);
     
     m_blur.set("Blur", 0.0, 0.0, 10.0);
-    m_blur.addListener(cameraManager, &CameraManager::setBlurScale);
+    m_blur.addListener(camManager, &CamManager::setBlurScale);
     m_parameters.add(m_blur);
     
     m_minInput.set("MinInput", 0.0, 0.0, 1.0);
-    m_minInput.addListener(cameraManager, &CameraManager::setMinInput);
+    m_minInput.addListener(camManager, &CamManager::setMinInput);
     m_parameters.add(m_minInput);
     
     m_maxInput.set("MaxInput", 1.0, 0.0, 1.0);
-    m_maxInput.addListener(cameraManager, &CameraManager::setMaxInput);
+    m_maxInput.addListener(camManager, &CamManager::setMaxInput);
     m_parameters.add(m_maxInput);
     
     m_minOutput.set("MinOutput", 0.0, 0.0, 1.0);
-    m_minOutput.addListener(cameraManager, &CameraManager::setMinOutput);
+    m_minOutput.addListener(camManager, &CamManager::setMinOutput);
     m_parameters.add(m_minOutput);
     
     m_maxOutput.set("MaxOutput", 1.0, 0.0, 1.0);
-    m_maxOutput.addListener(cameraManager, &CameraManager::setMaxOutput);
+    m_maxOutput.addListener(camManager, &CamManager::setMaxOutput);
     m_parameters.add(m_maxOutput);
 
     
-    ofxDatGuiFolder* folder = m_gui.addFolder("GENERAL", ofColor::purple);
+    ofxDatGuiFolder* folder = m_gui.addFolder("CAMERA", ofColor::purple);
     folder->addSlider(m_contrast);
     folder->addSlider(m_saturation);
     folder->addSlider(m_brightness);
@@ -231,7 +241,15 @@ void GuiManager::onColorPickerEvent(ofxDatGuiColorPickerEvent e)
 {
     cout << "onColorPickerEvent: " << e.target->getName() << " Selected" << endl;
     
+    int numColors = AppManager::getInstance().getColorManager().getNumberOfColors();
     
+    for(int i=0; i<numColors; i++ ){
+        string name = "COLOR " + ofToString(i);
+        if (e.target->getName() == name){
+            AppManager::getInstance().getColorManager().setColor(e.color, i);
+        }
+    }
+   
 }
 
 void GuiManager::onButtonEvent(ofxDatGuiButtonEvent e)

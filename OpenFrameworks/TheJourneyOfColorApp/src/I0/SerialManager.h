@@ -48,7 +48,9 @@ public:
     //! updates the udp manager
     void update();
     
-    void onSetColor(const ofColor& color);
+    //void onSetColor(const ofColor& color);
+    
+    void onSetColors(vector<ofColor>& colors);
     
     
 private:
@@ -57,23 +59,29 @@ private:
     
     void setupSerial();
     
+    void setupHeaders();
+    
     void autoConnect();
     
     void connect(int portNum);
     
     bool checkConnection(int portNum);
     
-    void sendPin();
+    void sendConnection();
     
-    bool receivedOk();
+    bool receivedConnected();
+    
+    bool isMessage(unsigned char * buffer, int size);
+    
+    bool isConnected(unsigned char * buffer, int size);
     
 private:
     
     ofSerial   m_serial;
     bool       m_connected;
     
-    udp_header    m_dataHeader;
-    udp_header    m_connectHeader;
+    serial_header    m_dataHeader;
+    serial_header    m_connectHeader;
     
     
 };

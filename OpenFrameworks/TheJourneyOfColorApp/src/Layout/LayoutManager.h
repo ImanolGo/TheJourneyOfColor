@@ -27,8 +27,8 @@
 
 enum ScreenMode{
     DRAW_NORMAL = 0,
-    DRAW_VIDEO,
-    DRAW_LEDS
+    DRAW_CAMERA,
+    DRAW_COLOR
 };
 
 class LayoutManager: public Manager
@@ -103,9 +103,9 @@ private:
     
     void updateFbos();
     
-    void updateVideoFbo();
+    void updateCameraFbo();
     
-    void updateLedsFbo();
+    void updateColorFbo();
     
     void drawFbos();
     
@@ -113,11 +113,11 @@ private:
     
     void drawText();
     
-    void drawLeds();
+    void drawColor();
     
     void drawNormal();
     
-    void drawVideo();
+    void drawCamera();
 
     
 private:
