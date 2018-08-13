@@ -50,7 +50,7 @@ public:
     
     //void onSetColor(const ofColor& color);
     
-    void onSetColors(vector<ofColor>& colors);
+    void sendColors(vector<ofColor>& colors);
     
     
 private:

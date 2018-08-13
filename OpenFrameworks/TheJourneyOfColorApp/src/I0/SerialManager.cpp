@@ -226,7 +226,7 @@ void SerialManager::update()
 }
 
 
-void SerialManager::onSetColors(vector<ofColor>& colors)
+void SerialManager::sendColors(vector<ofColor>& colors)
 {
     if(!m_connected){
         return;

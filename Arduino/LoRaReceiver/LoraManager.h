@@ -109,9 +109,6 @@ void LoraManager::initializeLora()
 }
 
 
-
-
-
 void LoraManager::update()
 {
     updateLora();
@@ -127,6 +124,7 @@ void LoraManager::updateLora()
       
         if (this->rf95->recv(buf, &len))
         {
+             RH_RF95::printBuffer("Received: ", buf, len);
             if(this->isMessage(buf,len) && this->isData(buf, len) && this->isChannel(buf, len))
             {
                 this->ledsManager->setColorPalette(this->getColorPalette(buf,len));
@@ -166,6 +164,13 @@ CRGB* LoraManager::getColorPalette(unsigned char* pbuff, int count)
     {
         palette[i] = CRGB(pbuff[HEADER_SIZE + offset], pbuff[HEADER_SIZE + (offset +1)], pbuff[HEADER_SIZE + (offset +2)]);
         offset +=CHANNEL_WIDTH; //increase last channel number by channel width
+
+          Serial.print("LoraManager::getColorPalette, r = ");
+          Serial.print(palette[i].r);
+          Serial.print(", g = ");
+          Serial.print(palette[i].g);
+          Serial.print(", b = ");
+          Serial.println(palette[i].b);
     }
   
     return palette;

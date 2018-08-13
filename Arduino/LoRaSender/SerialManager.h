@@ -124,6 +124,7 @@ void SerialManager::sendConnected()
       buf[6] = 'c';
       
       Serial.write(buf, len);
+      this->loraManager->sendMessage(buf, len);
       _connected = true;
 }
 

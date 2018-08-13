@@ -82,7 +82,8 @@ void ColorManager::setColor(ofColor& color, int index)
     if(index>=0 && index<m_colorPalette.size()){
         m_colorPalette[index] = color;
         ofLogNotice() <<"ColorManager::selected color index: " << index;
-        ofLogNotice() <<"ColorManager::selected color: " << m_colorPalette[index].r << ", " <<  m_colorPalette[index].g << ", " <<  m_colorPalette[index].b;
+        ofLogNotice() <<"ColorManager::selected color: " << (int) m_colorPalette[index].r << ", " <<  (int)m_colorPalette[index].g << ", " <<  (int)m_colorPalette[index].b;
+        AppManager::getInstance().getSerialManager().sendColors(m_colorPalette);
     }
 }
 
