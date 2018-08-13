@@ -17,12 +17,10 @@
 #define LED_TYPE    DOTSTAR
 #define COLOR_ORDER BGR
 #define NUM_LEDS 40
+#define NUM_COLOR_PALETTE 10
 #define MAX_BRIGHTNESS 100
 #define TEST_DELAY 500
-
-
-const byte channelwidth = 3; //3 channels per pixel
-
+#define CHANNEL_WIDTH 3
 
 class LedsManager{
 
@@ -35,20 +33,22 @@ class LedsManager{
 
     void setAllBlack();
     void setColor(CRGB color);
+    void setColorPalette(CRGB* palette);
     
   private:
 
     void setupLeds();
     void initTest();
 
-    CRGB leds[NUM_LEDS];    
+    CRGB leds[NUM_LEDS]; 
+    CRGB palette[NUM_COLOR_PALETTE];    
 };
 
 void LedsManager::setup()
 {
     Serial.println("LedsManager::setup");
     this->setupLeds(); 
-    this->initTest()z
+    this->initTest();
 }
 
 
@@ -87,6 +87,15 @@ void LedsManager::setColor(CRGB color)
   Serial.println(color.b);
   FastLED.show();
 }
+
+
+
+void LedsManager::setColorPalette(CRGB* palette)
+{
+   CRGB* pal = palette;  
+   this->setColor(pal[0]);
+}
+
 
 void LedsManager::initTest() //runs at board boot to make sure pixels are working
 {

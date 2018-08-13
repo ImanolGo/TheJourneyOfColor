@@ -31,6 +31,7 @@ class SerialManager: public Manager
         Byte f2;
         Byte f3;
         Byte size;
+        Byte command;
         Byte  channel;
     };
     
@@ -70,6 +71,9 @@ private:
     
     ofSerial   m_serial;
     bool       m_connected;
+    
+    udp_header    m_dataHeader;
+    udp_header    m_connectHeader;
     
     
 };

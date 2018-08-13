@@ -9,10 +9,11 @@
 
 
 #define CHANNEL 0
-#define HEADER_SIZE 5
+#define HEADER_SIZE 6
 #define SIZE_INDEX 3
-#define CHANNEL_INDEX 4
-#define COLOR_INDEX 5
+#define COMMAND_INDEX 4
+#define CHANNEL_INDEX 5
+#define COLOR_INDEX 6
 #define NUM_BYTES 3
 
 #pragma once
@@ -30,6 +31,7 @@
 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 434.0
+
 
 class LoraManager
 {
@@ -52,9 +54,11 @@ class LoraManager
     void updateLora();
     void parseMessage();
     bool isMessage(uint8_t* _buffer, uint8_t bufferSize);
+    bool isData(uint8_t* _buffer, uint8_t bufferSize);
     bool isChannel(uint8_t* _buffer, uint8_t bufferSize);
     int BtoI(byte a, byte b);
     CRGB  getRGBColor(uint8_t* _buffer, uint8_t bufferSize);
+    CRGB* getColorPalette(unsigned char* pbuff, int count);
  
 };
 
@@ -123,9 +127,9 @@ void LoraManager::updateLora()
       
         if (this->rf95->recv(buf, &len))
         {
-            if(this->isMessage(buf,len) && this->isChannel(buf, len))
+            if(this->isMessage(buf,len) && this->isData(buf, len) && this->isChannel(buf, len))
             {
-                this->ledsManager->setColor(this->getRGBColor(buf,len));
+                this->ledsManager->setColorPalette(this->getColorPalette(buf,len));
                 
             }
         }
@@ -147,6 +151,28 @@ CRGB LoraManager::getRGBColor(uint8_t* _buffer, uint8_t bufferSize)
 }
 
 
+CRGB* LoraManager::getColorPalette(unsigned char* pbuff, int count) 
+{
+    int numLeds = count/CHANNEL_WIDTH;
+  
+    if(numLeds > NUM_COLOR_PALETTE){
+       numLeds = NUM_COLOR_PALETTE;
+    }
+  
+    CRGB palette[NUM_COLOR_PALETTE];
+    
+    int offset = 0; //reset RGB channel assignment to 0 each time through loop.
+    for (int i = 0; i < numLeds; i++) //loop to assign 3 channels to each pixel
+    {
+        palette[i] = CRGB(pbuff[HEADER_SIZE + offset], pbuff[HEADER_SIZE + (offset +1)], pbuff[HEADER_SIZE + (offset +2)]);
+        offset +=CHANNEL_WIDTH; //increase last channel number by channel width
+    }
+  
+    return palette;
+
+}
+
+
 bool LoraManager::isMessage(uint8_t* _buffer, uint8_t bufferSize)
 {
     if ( _buffer[0] == 0x10 && _buffer[1] == 0x41 && _buffer[2] == 0x37) 
@@ -160,6 +186,17 @@ bool LoraManager::isMessage(uint8_t* _buffer, uint8_t bufferSize)
 
     return false;
 }
+
+
+bool LoraManager::isData(uint8_t* _buffer, uint8_t bufferSize)
+{
+    if ( _buffer[COMMAND_INDEX] == 'd') { 
+      return true;
+    }
+
+    return false;
+}
+
 
 bool LoraManager::isChannel(uint8_t* _buffer, uint8_t bufferSize)
 {

@@ -25,15 +25,14 @@
 #include "LedsManager.h"
 
 
-
-LoraManager loraManager;
-LedsManager ledsManager(&loraManager);
+LedsManager ledsManager;
+LoraManager loraManager(&ledsManager);
 
 
 void setup() 
 {
     Serial.begin(115200);
-    delay(2000);
+    delay(200);
     Serial.println("Starting Software!!!!");
 
     ledsManager.setup();
@@ -42,6 +41,7 @@ void setup()
 
 void loop() 
 {
-    loraManager.update();
     ledsManager.update();
+    loraManager.update();
+ 
 }

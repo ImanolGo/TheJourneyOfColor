@@ -40,6 +40,25 @@ void SerialManager::setup()
     ofLogNotice() <<"SerialManager::initialized" ;
 }
 
+
+void SerialManager::setupHeaders()
+{
+    m_dataHeader.f1 = 0x10;
+    m_dataHeader.f2 = 0x41;
+    m_dataHeader.f3 = 0x37;
+    m_dataHeader.size = 0;
+    m_dataHeader.command = 'd';
+    m_dataHeader.channel = 0;
+    
+    m_connectHeader.f1 = 0x10;
+    m_connectHeader.f2 = 0x41;
+    m_connectHeader.f3 = 0x37;
+    m_connectHeader.size = 1;
+    m_connectHeader.command = 'c';
+    m_connectHeader.channel = 0;
+}
+
+
 void SerialManager::setupSerial()
 {
     ofLogNotice() <<"SerialManager::setupSerial << Autoconnecting serial port";
