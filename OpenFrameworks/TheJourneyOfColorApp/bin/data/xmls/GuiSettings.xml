@@ -1,9 +1,12 @@
-<?xml version="1.0"?>
 <group>
+	<Threshold>37</Threshold>
+	<Min_Area>112</Min_Area>
+	<Max_Area>7753</Max_Area>
 	<Contrast>1.02</Contrast>
 	<Saturation>1.03</Saturation>
 	<Brightness>1.03</Brightness>
 	<Gamma>1.04</Gamma>
+	<Blur>0</Blur>
 	<MinInput>0</MinInput>
 	<MaxInput>1</MaxInput>
 	<MinOutput>0</MinOutput>

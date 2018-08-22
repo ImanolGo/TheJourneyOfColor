@@ -46,6 +46,8 @@ public:
     
     float getAppHeight() const {return m_appHeight;}
     
+     int getSerialPort() const {return m_serialPort;}
+    
    
 private:
     
@@ -81,6 +83,8 @@ private:
     float                   m_appWidth;             ///< stores the applications width
     float                   m_appHeight;            ///< stores the applications height
     ofColor                 m_blankColor;           ///<return blank color
+    
+    int                     m_serialPort;           ///< stores the settings serial port
 
 };
 

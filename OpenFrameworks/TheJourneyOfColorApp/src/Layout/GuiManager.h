@@ -68,6 +68,8 @@ public:
     
     void onMatrixEvent(ofxDatGuiMatrixEvent e);
     
+    void setMotionDetected(bool value);
+    
     
 private:
     
@@ -76,6 +78,8 @@ private:
     void setupLevelsGui();
     
     void setupColorsGui();
+    
+    void setupCameraGui();
     
     void drawRectangle();
     
@@ -103,6 +107,11 @@ private:
     ofParameter<float>      m_minOutput;
     ofParameter<float>      m_maxOutput;
     
+    ofParameter<int>        m_imgThreshold;
+    ofParameter<int>        m_minArea;
+    ofParameter<int>        m_maxArea;
+    ofParameter<bool>       m_motionDetected;
+
     
     bool        m_showGui;  //It defines the whether the gui should be shown or not
 };

@@ -89,6 +89,8 @@ void SettingsManager::setDebugProperties()
         }
         
         
+        m_serialPort = ofToInt(attributes["serialPort"]);
+        
         ofLogNotice() <<"SettingsManager::setDebugProperties->  successfully loaded the OF general settings" ;
         return;
     }

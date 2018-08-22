@@ -38,6 +38,7 @@ void ColorManager::setup()
 
 	Manager::setup();
     this->setupColors();
+    this->setupQuantizer();
     
     
     ofLogNotice() <<"ColorManager::initialized" ;
@@ -53,15 +54,41 @@ void ColorManager::setupColors()
     }
 }
 
+void ColorManager::setupQuantizer()
+{
+    m_colorQuantizer.setNumColors(NUM_COLORS);
+}
 
 void ColorManager::update()
 {
     //To Implement
 }
 
+
+void ColorManager::quantizeColors(const ofPixels & pixels)
+{
+    m_colorQuantizer.quantize(pixels);
+    m_colorPalette = m_colorQuantizer.getColors();
+    
+    // using default comparison (operator <):
+    //std::sort (m_colorPalette.begin(), m_colorPalette.end());
+    
+    std::sort(m_colorPalette.begin(),
+              m_colorPalette.end(),
+              [](const ofColor& lhs, const ofColor& rhs)
+    {
+        return lhs.getHue() < rhs.getHue();
+    });
+    
+//    for(auto& color: m_colorPalette){
+//        color.setSaturation(255);
+//    }
+}
+
 void ColorManager::draw()
 {
-    this->drawColor();
+    //this->drawColor();
+    this->drawPalette();
 }
 
 void ColorManager::drawColor()
@@ -76,6 +103,27 @@ void ColorManager::drawColor()
         ofDrawRectangle(0,0, rect->getWidth(), rect->getHeight());
     ofPopStyle();
 }
+
+void ColorManager::drawPalette()
+{
+    string name = "Color";
+    auto rect = AppManager::getInstance().getLayoutManager().getWindowRect(name);
+    
+    float width = rect->getWidth()/m_colorPalette.size();
+    float height = rect->getHeight();
+    
+    ofPushStyle();
+    ofFill();
+    for(int i=0; i<m_colorPalette.size(); i++)
+    {
+        ofSetColor(m_colorPalette[i]);
+        ofDrawRectangle(i*width,0, width,height);
+    }
+    
+     ofPopStyle();
+    
+}
+
 
 void ColorManager::setColor(ofColor& color, int index)
 {

@@ -11,6 +11,9 @@
 
 #include "Manager.h"
 
+#include "ofxOpenCv.h"
+#include "ofxColorQuantizer.h"
+
 
 //========================== class ColorManager ==============================
 //============================================================================
@@ -48,12 +51,18 @@ class ColorManager: public Manager
     
         ofColor getColor(int index);
     
+        void quantizeColors(const ofPixels & pixels);
+    
     
     private:
     
         void setupColors();
     
+        void setupQuantizer();
+    
         void drawColor();
+    
+        void drawPalette();
     
     
     private:
@@ -61,6 +70,7 @@ class ColorManager: public Manager
         typedef  vector< ofColor> ColorPalette;  ///< defines a vector of ofColors
     
         ColorPalette            m_colorPalette;
+        ofxColorQuantizer       m_colorQuantizer;
     
 
 };

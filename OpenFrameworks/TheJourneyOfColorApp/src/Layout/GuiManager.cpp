@@ -28,7 +28,7 @@ GuiManager::GuiManager(): Manager(), m_showGui(true)
 
 GuiManager::~GuiManager()
 {
-    //this->saveGuiValues();
+    this->saveGuiValues();
     ofLogNotice() <<"GuiManager::Destructor";
 }
 
@@ -43,6 +43,7 @@ void GuiManager::setup()
     
     this->setupGuiParameters();
     this->setupColorsGui();
+    this->setupCameraGui();
     this->setupLevelsGui();
 
     this->setupGuiEvents();
@@ -134,7 +135,7 @@ void GuiManager::setupLevelsGui()
     m_parameters.add(m_maxOutput);
 
     
-    ofxDatGuiFolder* folder = m_gui.addFolder("CAMERA", ofColor::purple);
+    ofxDatGuiFolder* folder = m_gui.addFolder("LEVELS", ofColor::purple);
     folder->addSlider(m_contrast);
     folder->addSlider(m_saturation);
     folder->addSlider(m_brightness);
@@ -146,6 +147,36 @@ void GuiManager::setupLevelsGui()
     folder->addSlider(m_maxOutput);
     folder->expand();
 
+    m_gui.addBreak();
+}
+
+
+void GuiManager::setupCameraGui()
+{
+    auto camManager = &AppManager::getInstance().getCamManager();
+    
+    m_motionDetected.set("Motion", false);
+    
+    m_imgThreshold.set("Threshold", 30, 0, 255);
+    m_imgThreshold.addListener(camManager, &CamManager::setImageThreshold);
+    m_parameters.add(m_imgThreshold);
+    
+    m_minArea.set("Min Area", 20, 0, 20000);
+    m_minArea.addListener(camManager, &CamManager::setMinArea);
+    m_parameters.add(m_minArea);
+    
+    m_maxArea.set("Max Area", 900, 0, 60000);
+    m_maxArea.addListener(camManager, &CamManager::setMaxArea);
+    m_parameters.add(m_maxArea);
+    
+    ofxDatGuiFolder* folder = m_gui.addFolder("CAMERA", ofColor::green);
+    folder->addToggle("Motion");
+    folder->addSlider(m_imgThreshold);
+    folder->addSlider(m_minArea);
+    folder->addSlider(m_maxArea);
+   
+    folder->expand();
+    
     m_gui.addBreak();
 }
 
@@ -268,5 +299,10 @@ void GuiManager::onToggleEvent(ofxDatGuiToggleEvent e)
 void GuiManager::onMatrixEvent(ofxDatGuiMatrixEvent e)
 {
     cout << "onMatrixEvent " << e.child << " : " << e.enabled << endl;
+}
+
+void GuiManager::setMotionDetected(bool value)
+{
+    m_gui.getToggle("Motion")->setChecked(value);
 }
 

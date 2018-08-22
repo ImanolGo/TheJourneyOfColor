@@ -62,8 +62,18 @@ void SerialManager::setupHeaders()
 
 void SerialManager::setupSerial()
 {
-    ofLogNotice() <<"SerialManager::setupSerial << Autoconnecting serial port";
-    this->autoConnect();
+   // ofLogNotice() <<"SerialManager::setupSerial << Autoconnecting serial port";
+    //this->autoConnect();
+    
+    int serialPort = AppManager::getInstance().getSettingsManager().getSerialPort();
+    if(serialPort<0){
+        ofLogNotice() <<"SerialManager::setupSerial << Autoconnecting serial port";
+        this->autoConnect();
+    }
+    else{
+        ofLogNotice() <<"SerialManager::setupSerial << Connecting serial to port " << serialPort;
+        this->connect(serialPort);
+    }
 }
 
 void SerialManager::connect(int portNum)

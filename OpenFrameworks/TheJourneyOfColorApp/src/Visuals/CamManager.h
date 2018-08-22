@@ -12,6 +12,7 @@
 #include "Manager.h"
 #include "ofxPSLevels.h"
 #include "ofxBlur.h"
+#include "ofxOpenCv.h"
 
 //========================== class CamManager ==============================
 //============================================================================
@@ -58,15 +59,38 @@ public:
     
     void setMaxOutput(float& value) {m_levels.maxOutput = value;}
     
+    void setImageThreshold(int& value) {m_imgThreshold = value;}
+    
+    void setMinArea(int& value) {m_minArea = value;}
+    
+    void setMaxArea(int& value) {m_maxArea = value;}
+    
     void setBlurScale(float& value);
     
+    const ofFbo& getFbo() const{return m_fbo;}
+    
 private:
+    
+    
+    void setupFbo();
+    
+    void setupCv();
     
     void setupCamera();
     
     void updateCamera();
     
+    void updateCv();
+    
+    void updateFbo();
+    
+    void updateFboCamera();
+    
+    void updateQuantization();
+    
     void drawCamera();
+    
+    void drawFbo();
     
     void setupShaders(float width,float height);
     
@@ -81,10 +105,25 @@ private:
     int                 m_camWidth;
     int                 m_camHeight;
     
+    ofxCvColorImage            m_colorImg;
+    ofxCvGrayscaleImage        m_grayImg;
+    ofxCvGrayscaleImage        m_grayPrevImg;
+    ofxCvGrayscaleImage        m_diffImg;
+    ofxCvGrayscaleImage        m_binaryImg;
+    ofxCvContourFinder         m_contourFinder;
+    
     ofxPSLevels     m_levels;
     ofxBlur         m_blur;
     
+    ofFbo           m_fboCamera;
     ofFbo           m_fbo;
+    
+    int             m_imgThreshold;
+    int             m_minArea;
+    int             m_maxArea;
+    
+    bool            m_isMotionDetected;
+    bool            m_prevMotionDetected;
 
 };
 

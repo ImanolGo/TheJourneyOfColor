@@ -4,7 +4,7 @@
   <of_settings>
 
     <window title="The Journey of Color App" x="0" y="0" width="1920" height="1200" fullscreen="0" showCursor="1"/>
-    <debug showCursor="1" setVerbose="1"/> 
+    <debug showCursor="1" setVerbose="1" serialPort = "0"/> 
 
   </of_settings>
 
