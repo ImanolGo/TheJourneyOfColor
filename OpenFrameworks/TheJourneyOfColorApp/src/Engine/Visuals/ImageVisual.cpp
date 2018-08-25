@@ -12,16 +12,16 @@
 #include "ImageVisual.h"
 
 
-ImageVisual::ImageVisual(): BasicVisual(), m_centred(false), m_resizer(1,1,1)
+ImageVisual::ImageVisual(): BasicVisual(), m_centred(false)
 {
     //this->setResource("");
 }
 
 
 ImageVisual::ImageVisual(const ofVec3f& pos, const string& resourceName,bool centred):
-    BasicVisual(pos, 0, 0), m_centred(centred), m_resizer(1,1,1)
+    BasicVisual(pos, 0, 0), m_centred(centred)
 {
-    this->setResource(resourceName);
+    this->setResource(resourceName, true);
 }
 
 ImageVisual::~ImageVisual()
@@ -29,14 +29,19 @@ ImageVisual::~ImageVisual()
     //Intentionally left empty
 }
 
-bool ImageVisual::setResource(const string& resourceName)
+bool ImageVisual::setResource(const string& resourceName, bool forceResize)
 {
     m_texture = AppManager::getInstance().getResourceManager().getTexture(resourceName);
 
-    m_width = m_originalWidth = m_texture->getWidth();
-    m_height = m_originalHeight = m_texture->getHeight();
-    m_resizer.x = m_width/m_originalWidth;
-    m_resizer.y = m_height/m_originalHeight;
+    m_originalWidth = m_texture->getWidth();
+    m_originalHeight = m_texture->getHeight();
+    
+    if(forceResize)
+    {
+        m_width = m_texture->getWidth();
+        m_height =  m_texture->getHeight();
+    }
+   
 
     return true;
 }
@@ -46,8 +51,7 @@ void ImageVisual::draw()
      if(!m_texture->bAllocated()){
         return;
     }
-
-
+    
     ofPushMatrix();
     ofPushStyle();
 
@@ -66,9 +70,8 @@ void ImageVisual::draw()
             ofRotateZ(m_rotation.z);//rotate from centre
         ofPushMatrix();
         ofTranslate(-m_width*0.5,-m_height*0.5,0);//move back by the centre offset
-            ofScale(m_resizer.x,m_resizer.y);
             ofSetColor(m_color);
-            m_texture->draw(0,0);
+            m_texture->draw(0,0,m_width,m_height);
         ofPopMatrix();
         ofPopMatrix();
 
@@ -84,21 +87,16 @@ void ImageVisual::setWidth(float width, bool keepRatio)
         float ratio = m_originalWidth/m_originalHeight;
         m_height = m_width/ratio;
     }
-
-    m_resizer.x = m_width/m_originalWidth;
-    m_resizer.y = m_height/m_originalHeight;
 }
 
 void ImageVisual::setHeight(float height, bool keepRatio)
 {
-    m_height = height;
+   m_height = height;
     if(keepRatio){
         float ratio = m_originalWidth/m_originalHeight;
         m_width = m_height*ratio;
     }
 
-    m_resizer.x = m_width/m_originalWidth;
-    m_resizer.y = m_height/m_originalHeight;
 }
 
 ofTexture & ImageVisual::getTexture()

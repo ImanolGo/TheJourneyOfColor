@@ -8,9 +8,7 @@
 #pragma once
 
 
-#include "EngineFont.h"
-
-
+#include "ofxTextSuite.h"
 #include "BasicVisual.h"
 
 
@@ -55,6 +53,8 @@ public:
     //! Gets the height of the current bounding box
     virtual float getHeight() {return m_box.getHeight();}
     
+    virtual void setColor(const ofColor& color);
+    
     const string& getText(){return m_text;}
     
     void setCentred(bool centred) {m_centred = centred;}
@@ -65,9 +65,10 @@ public:
     
     void setFontName(const string& name);
     
+    void setAligment(TextBlockAlignment& aligment) {m_alignment = aligment;}
+    
 private:
     
-    EngineFont        m_font;         ///< EngineFont class
     std::string       m_text;        ///< text to be rendered
     std::string       m_fontName;    ///< saves the fontName
     float             m_fontSize;    ///< saves the font size
@@ -76,6 +77,9 @@ private:
     ofRectangle       m_box;         ///< the box surrounding the text
     ofVec3f           m_translation; ///< the point to which shift the origin
     bool              m_drawBB;      ///< determines whether the bounding box should be drawn or not
+    
+    ofxTextBlock        m_textSuite;
+    TextBlockAlignment  m_alignment;  //constants for controlling state
     
     
 };

@@ -35,6 +35,9 @@ class ResourceManager: public Manager
 
         //! Searches for the specified texture name and returns the first found.
         ofPtr<ofTexture> getTexture(const string& name) const;
+    
+        //! Add new texture externally
+        bool addTexture(string name, string path);
 
 	private:
 
@@ -49,6 +52,7 @@ class ResourceManager: public Manager
 
 		//! Loads all the textures.
 		void loadTextures();
+    
     
 	private:
 

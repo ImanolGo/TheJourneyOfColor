@@ -35,7 +35,7 @@ public:
 	virtual void draw();
 
     //! Sets the texture to be binded to the quad
-    virtual bool setResource(const string& resourceName);
+    virtual bool setResource(const string& resourceName, bool forceResize = false);
     
     //! Sets the texture to be binded to the quad
     virtual void setCentred(bool centred) {m_centred = centred;}
@@ -58,7 +58,6 @@ public:
 protected:
 
     ofPtr<ofTexture>    m_texture;          ///< ofPtr to the texture
-    ofVec3f             m_resizer;          ///< it deales with the resize of the picture
     bool                m_centred;          ///< defines if the visual should be centred or not
     float               m_originalWidth;    ///< stores the original width of the image in pixels
     float               m_originalHeight;   ///< stores the original height of the image in pixels

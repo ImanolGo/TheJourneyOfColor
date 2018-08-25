@@ -98,6 +98,9 @@ void CamManager::setupFbo()
     m_fboCamera.allocate(m_vidGrabber.getWidth(),m_vidGrabber.getHeight(),GL_RGB);
     m_fboCamera.begin(); ofClear(0); m_fboCamera.end();
     
+    m_fboCamera.getTexture().getTextureData().bFlipTexture = true;
+    
+    
     m_fbo.allocate(2*m_vidGrabber.getWidth(),2*m_vidGrabber.getHeight());
     m_fbo.begin(); ofClear(0); m_fbo.end();
     
