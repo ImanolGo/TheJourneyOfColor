@@ -12,7 +12,8 @@
 #include "Manager.h"
 #include "ofxPSLevels.h"
 #include "ofxBlur.h"
-#include "ofxCv.h"
+#include "ofxOpenCv.h"
+#include "ofxTiming.h"
 
 //========================== class CamManager ==============================
 //============================================================================
@@ -59,15 +60,11 @@ public:
     
     void setMaxOutput(float& value) {m_levels.maxOutput = value;}
     
-    void setImageThreshold(float& value) {m_contourFinder.setThreshold(value);}
+    void setImageThreshold(float& value) {m_threshold = value;}
     
-    void setMinArea(float& value) {m_contourFinder.setMinAreaRadius(value);}
+    void setMinArea(float& value) {m_minArea = value;}
     
-    void setMaxArea(float& value) {m_contourFinder.setMaxAreaRadius(value);}
-    
-    void setLearningTime(float& value) { m_background.setLearningTime(value);}
-    
-    void setThresholdBackground(float& value) { m_background.setThresholdValue(value);}
+    void setMaxArea(float& value) {m_maxArea = value;}
     
     void setRoiWidth(float& value);
     
@@ -119,15 +116,15 @@ private:
     int                 m_camWidth;
     int                 m_camHeight;
     
-//    ofxCvColorImage            m_colorImg;
-//    ofxCvGrayscaleImage        m_grayImg;
-//    ofxCvGrayscaleImage        m_grayPrevImg;
-//    ofxCvGrayscaleImage        m_diffImg;
-//    ofxCvGrayscaleImage        m_binaryImg;
-//    ofxCvContourFinder         m_contourFinder;
+    ofxCvColorImage            m_colorImg;
+    ofxCvGrayscaleImage        m_grayImg;
+    ofxCvGrayscaleImage        m_grayPrevImg;
+    ofxCvGrayscaleImage        m_diffImg;
+    ofxCvGrayscaleImage        m_binaryImg;
+    ofxCvContourFinder         m_contourFinder;
     
-    ofxCv::ContourFinder        m_contourFinder;
-    ofxCv::RunningBackground    m_background;
+//    ofxCv::ContourFinder        m_contourFinder;
+//    ofxCv::RunningBackground    m_background;
     ofImage                     m_thresholded;
     
     ofxPSLevels     m_levels;
@@ -139,6 +136,8 @@ private:
     ofFbo           m_fboThresholded;
     
     ofRectangle     m_roiRectangle;
+    
+    Hysteresis      m_hysteresis;
     
     float           m_threshold;
     float           m_minArea;

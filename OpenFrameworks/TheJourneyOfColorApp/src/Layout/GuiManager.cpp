@@ -170,11 +170,11 @@ void GuiManager::setupCameraGui()
     m_parameters.add(m_maxArea);
     
     m_learningTime.set("LearningTime", 2, 0, 10);
-    m_learningTime.addListener(camManager, &CamManager::setLearningTime);
+    //m_learningTime.addListener(camManager, &CamManager::setLearningTime);
     m_parameters.add(m_learningTime);
     
     m_backgThreshold.set("Background Threshold", 10, 0, 255);
-    m_backgThreshold.addListener(camManager, &CamManager::setThresholdBackground);
+   // m_backgThreshold.addListener(camManager, &CamManager::setThresholdBackground);
     m_parameters.add(m_backgThreshold);
     
     m_roiWidth.set("Roi Width", 0.5, 0.1, 1.0);
@@ -189,8 +189,8 @@ void GuiManager::setupCameraGui()
     ofxDatGuiFolder* folder = m_gui.addFolder("CAMERA", ofColor::green);
     folder->addToggle("Motion");
     folder->addSlider(m_imgThreshold);
-    folder->addSlider(m_backgThreshold);
-    folder->addSlider(m_learningTime);
+    //folder->addSlider(m_backgThreshold);
+    //folder->addSlider(m_learningTime);
     folder->addSlider(m_minArea);
     folder->addSlider(m_maxArea);
     folder->addSlider(m_roiWidth);

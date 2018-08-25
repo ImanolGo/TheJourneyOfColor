@@ -1,11 +1,11 @@
 <group>
-	<Image_Threshold>224.92</Image_Threshold>
-	<Min_Area>4.34</Min_Area>
-	<Max_Area>180.42</Max_Area>
+	<Image_Threshold>48.71</Image_Threshold>
+	<Min_Area>1.56</Min_Area>
+	<Max_Area>121.54</Max_Area>
 	<LearningTime>0.34</LearningTime>
 	<Background_Threshold>51.57</Background_Threshold>
-	<Roi_Width>0.47</Roi_Width>
-	<Roi_Height>0.45</Roi_Height>
+	<Roi_Width>0.5</Roi_Width>
+	<Roi_Height>0.74</Roi_Height>
 	<Contrast>1.24</Contrast>
 	<Saturation>1.08</Saturation>
 	<Brightness>1.03</Brightness>
