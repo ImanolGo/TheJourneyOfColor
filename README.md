@@ -4,7 +4,7 @@ The Journey of Color is an installation commissioned to Moritz Waldemeyer where 
 
 ## Installation
 
-Developed under MacOS Sierra using OpenFrameworks 0.9.8.
+Developed under MacOS Sierra using OpenFrameworks 0.10.0
 
 ## Credits
 
