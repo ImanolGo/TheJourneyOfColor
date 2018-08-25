@@ -77,8 +77,12 @@ void ColorManager::quantizeColors(const ofPixels & pixels)
               m_colorPalette.end(),
               [](const ofColor& lhs, const ofColor& rhs)
     {
-        return lhs.getHue() < rhs.getHue();
+        return  (0.2126*lhs.r + 0.7152*lhs.g + 0.0722*lhs.b) < (0.2126*rhs.r + 0.7152*rhs.g + 0.0722*rhs.b);
+       // return lhs.getBrightness() < rhs.getBrightness();
     });
+    
+    
+   
     
 //    for(auto& color: m_colorPalette){
 //        color.setSaturation(255);

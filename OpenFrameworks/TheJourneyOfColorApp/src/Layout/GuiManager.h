@@ -107,9 +107,13 @@ private:
     ofParameter<float>      m_minOutput;
     ofParameter<float>      m_maxOutput;
     
-    ofParameter<int>        m_imgThreshold;
-    ofParameter<int>        m_minArea;
-    ofParameter<int>        m_maxArea;
+    ofParameter<float>        m_imgThreshold;
+    ofParameter<float>        m_minArea;
+    ofParameter<float>        m_maxArea;
+    ofParameter<float>        m_learningTime;
+    ofParameter<float>        m_backgThreshold;
+    ofParameter<float>        m_roiWidth;
+    ofParameter<float>        m_roiHeight;
     ofParameter<bool>       m_motionDetected;
 
     

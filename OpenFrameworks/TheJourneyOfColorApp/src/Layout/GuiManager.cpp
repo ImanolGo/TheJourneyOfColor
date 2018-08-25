@@ -157,24 +157,45 @@ void GuiManager::setupCameraGui()
     
     m_motionDetected.set("Motion", false);
     
-    m_imgThreshold.set("Threshold", 30, 0, 255);
+    m_imgThreshold.set("Image Threshold", 128, 0, 255);
     m_imgThreshold.addListener(camManager, &CamManager::setImageThreshold);
     m_parameters.add(m_imgThreshold);
     
-    m_minArea.set("Min Area", 20, 0, 20000);
+    m_minArea.set("Min Area", 10, 1, 100);
     m_minArea.addListener(camManager, &CamManager::setMinArea);
     m_parameters.add(m_minArea);
     
-    m_maxArea.set("Max Area", 900, 0, 60000);
+    m_maxArea.set("Max Area", 200, 1, 500);
     m_maxArea.addListener(camManager, &CamManager::setMaxArea);
     m_parameters.add(m_maxArea);
+    
+    m_learningTime.set("LearningTime", 2, 0, 10);
+    m_learningTime.addListener(camManager, &CamManager::setLearningTime);
+    m_parameters.add(m_learningTime);
+    
+    m_backgThreshold.set("Background Threshold", 10, 0, 255);
+    m_backgThreshold.addListener(camManager, &CamManager::setThresholdBackground);
+    m_parameters.add(m_backgThreshold);
+    
+    m_roiWidth.set("Roi Width", 0.5, 0.1, 1.0);
+    m_roiWidth.addListener(camManager, &CamManager::setRoiWidth);
+    m_parameters.add(m_roiWidth);
+    
+    m_roiHeight.set("Roi Height", 0.5, 0.1, 1.0);
+    m_roiHeight.addListener(camManager, &CamManager::setRoiHeight);
+    m_parameters.add(m_roiHeight);
+    
     
     ofxDatGuiFolder* folder = m_gui.addFolder("CAMERA", ofColor::green);
     folder->addToggle("Motion");
     folder->addSlider(m_imgThreshold);
+    folder->addSlider(m_backgThreshold);
+    folder->addSlider(m_learningTime);
     folder->addSlider(m_minArea);
     folder->addSlider(m_maxArea);
-   
+    folder->addSlider(m_roiWidth);
+    folder->addSlider(m_roiHeight);
+    
     folder->expand();
     
     m_gui.addBreak();

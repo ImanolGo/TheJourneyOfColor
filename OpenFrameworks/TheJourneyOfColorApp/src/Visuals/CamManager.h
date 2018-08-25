@@ -12,7 +12,7 @@
 #include "Manager.h"
 #include "ofxPSLevels.h"
 #include "ofxBlur.h"
-#include "ofxOpenCv.h"
+#include "ofxCv.h"
 
 //========================== class CamManager ==============================
 //============================================================================
@@ -59,11 +59,19 @@ public:
     
     void setMaxOutput(float& value) {m_levels.maxOutput = value;}
     
-    void setImageThreshold(int& value) {m_imgThreshold = value;}
+    void setImageThreshold(float& value) {m_contourFinder.setThreshold(value);}
     
-    void setMinArea(int& value) {m_minArea = value;}
+    void setMinArea(float& value) {m_contourFinder.setMinAreaRadius(value);}
     
-    void setMaxArea(int& value) {m_maxArea = value;}
+    void setMaxArea(float& value) {m_contourFinder.setMaxAreaRadius(value);}
+    
+    void setLearningTime(float& value) { m_background.setLearningTime(value);}
+    
+    void setThresholdBackground(float& value) { m_background.setThresholdValue(value);}
+    
+    void setRoiWidth(float& value);
+    
+    void setRoiHeight(float& value);
     
     void setBlurScale(float& value);
     
@@ -90,6 +98,8 @@ private:
     
     void drawCamera();
     
+    void drawRectangle();
+    
     void drawFbo();
     
     void setupShaders(float width,float height);
@@ -98,6 +108,10 @@ private:
     
     void setupLevels(float width, float height);
     
+    void reallocateRoi();
+    
+    
+    
 private:
     
     
@@ -105,22 +119,31 @@ private:
     int                 m_camWidth;
     int                 m_camHeight;
     
-    ofxCvColorImage            m_colorImg;
-    ofxCvGrayscaleImage        m_grayImg;
-    ofxCvGrayscaleImage        m_grayPrevImg;
-    ofxCvGrayscaleImage        m_diffImg;
-    ofxCvGrayscaleImage        m_binaryImg;
-    ofxCvContourFinder         m_contourFinder;
+//    ofxCvColorImage            m_colorImg;
+//    ofxCvGrayscaleImage        m_grayImg;
+//    ofxCvGrayscaleImage        m_grayPrevImg;
+//    ofxCvGrayscaleImage        m_diffImg;
+//    ofxCvGrayscaleImage        m_binaryImg;
+//    ofxCvContourFinder         m_contourFinder;
+    
+    ofxCv::ContourFinder        m_contourFinder;
+    ofxCv::RunningBackground    m_background;
+    ofImage                     m_thresholded;
     
     ofxPSLevels     m_levels;
     ofxBlur         m_blur;
     
     ofFbo           m_fboCamera;
     ofFbo           m_fbo;
+    ofFbo           m_fboRoi;
+    ofFbo           m_fboThresholded;
     
-    int             m_imgThreshold;
-    int             m_minArea;
-    int             m_maxArea;
+    ofRectangle     m_roiRectangle;
+    
+    float           m_threshold;
+    float           m_minArea;
+    float           m_maxArea;
+    float           m_learningTime;
     
     bool            m_isMotionDetected;
     bool            m_prevMotionDetected;

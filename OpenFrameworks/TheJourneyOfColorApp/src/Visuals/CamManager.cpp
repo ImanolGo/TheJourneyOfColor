@@ -54,11 +54,11 @@ void CamManager::setup()
 
 void CamManager::setupCamera()
 {
-    //m_camWidth = 1280;
-    //m_camHeight = 720;
+    m_camWidth = 1920;
+    m_camHeight = 1080;
     
-    m_camWidth = 320;  // try to grab at this size.
-    m_camHeight =240;
+    //m_camWidth = 640;  // try to grab at this size.
+    //m_camHeight =360;
     
     //we can now get back a list of devices.
     vector<ofVideoDevice> devices = m_vidGrabber.listDevices();
@@ -74,6 +74,7 @@ void CamManager::setupCamera()
     m_vidGrabber.setDeviceID(0);
     //m_vidGrabber.setDesiredFrameRate(60);
     m_vidGrabber.setup(m_camWidth, m_camHeight);
+    m_vidGrabber.videoSettings();
 }
 
 
@@ -82,19 +83,25 @@ void CamManager::setupCv()
     int w = m_vidGrabber.getWidth();
     int h = m_vidGrabber.getHeight();
     
-    m_colorImg.allocate(w,h);
-    m_grayImg.allocate(w,h);
-    m_diffImg.allocate(w,h);
-    m_binaryImg.allocate(w,h);
+    m_contourFinder.setFindHoles(false);
+    
+//    m_colorImg.allocate(w,h);
+//    m_grayImg.allocate(w,h);
+//    m_diffImg.allocate(w,h);
+//    m_binaryImg.allocate(w,h);
 }
 
 void CamManager::setupFbo()
 {
-    m_fboCamera.allocate(m_vidGrabber.getWidth(),m_vidGrabber.getHeight());
+ m_fboCamera.allocate(m_vidGrabber.getWidth(),m_vidGrabber.getHeight(),GL_RGB);
     m_fboCamera.begin(); ofClear(0); m_fboCamera.end();
     
     m_fbo.allocate(2*m_vidGrabber.getWidth(),2*m_vidGrabber.getHeight());
     m_fbo.begin(); ofClear(0); m_fbo.end();
+    
+    m_roiRectangle.setFromCenter(m_fboCamera.getWidth()*0.5, m_fboCamera.getHeight()*0.5,m_fboCamera.getWidth()*0.25 , m_fboCamera.getHeight()*0.25);
+    
+    this->reallocateRoi();
 }
 
 void CamManager::setupShaders(float width,float height)
@@ -146,12 +153,22 @@ void CamManager::updateFbo()
     
     m_fbo.begin();
         ofClear(0);
-        m_colorImg.draw( 0, 0, w, h);
-        m_grayImg.draw( w, 0, w, h);
-        m_diffImg.draw( w, h,  w, h);
-        m_binaryImg.draw( 0, h,  w, h);
-        m_contourFinder.draw(0, h,  w, h);
+        ofSetColor(255);
+        m_fboCamera.draw( 0, 0, w, h);
+        m_fboRoi.draw( w, 0, w, h);
+        m_fboThresholded.draw( 0, h,  w, h);
+        this->drawRectangle();
     m_fbo.end();
+}
+
+void CamManager::drawRectangle()
+{
+    ofPushStyle();
+    ofNoFill();
+    ofSetColor(255);
+    ofSetLineWidth(5);
+    ofDrawRectangle(m_roiRectangle);
+    ofPopStyle();
 }
 
 void CamManager::updateFboCamera()
@@ -160,29 +177,33 @@ void CamManager::updateFboCamera()
         ofClear(0);
         this->drawCamera();
     m_fboCamera.end();
+    
+    m_fboRoi.begin();
+    ofClear(0);
+    m_fboCamera.draw(-m_roiRectangle.x,-m_roiRectangle.y);
+    m_fboRoi.end();
+    
+    m_fboThresholded.begin();
+    ofClear(0);
+    m_thresholded.draw(0,0);
+    m_contourFinder.draw();
+    m_fboThresholded.end();
 }
 
 void CamManager::updateCv()
 {
     ofPixels pixels;
-    m_fboCamera.readToPixels(pixels);
+    m_fboRoi.readToPixels(pixels);
+    ofImage img;
+    img.allocate(m_fboRoi.getWidth(), m_fboRoi.getHeight(), OF_IMAGE_COLOR);
+    img.setFromPixels(pixels);
     
-    //m_colorImg.setFromPixels(pixels);
-     m_colorImg.setFromPixels(m_vidGrabber.getPixels());
-    m_colorImg.mirror( false, true );
+    m_background.update(img, m_thresholded);
+    m_thresholded.update();
+    m_contourFinder.findContours(m_thresholded);
     
-    m_grayImg =  m_colorImg;
-    
-     m_diffImg.absDiff( m_grayImg,  m_grayPrevImg);
-    
-     m_grayPrevImg =  m_colorImg;
-    
-     m_binaryImg =  m_diffImg;
-     m_binaryImg.threshold( m_imgThreshold);
-    
-     m_contourFinder.findContours( m_binaryImg,  m_minArea,  m_maxArea, 10, false);
-    
-    if ( m_contourFinder.nBlobs > 0){
+
+    if ( m_contourFinder.size() > 0){
         if(!m_isMotionDetected){
             AppManager::getInstance().getGuiManager().setMotionDetected(true);
         }
@@ -199,7 +220,7 @@ void CamManager::updateCv()
 void CamManager::updateQuantization()
 {
     ofPixels pixels;
-    m_fboCamera.readToPixels(pixels);
+    m_fboRoi.readToPixels(pixels);
     AppManager::getInstance().getColorManager().quantizeColors(pixels);
 }
 
@@ -246,5 +267,25 @@ void CamManager::drawFbo()
      m_fbo.draw(frame);
 }
 
+void CamManager::setRoiWidth(float& value)
+{
+    m_roiRectangle.width = value*m_fboCamera.getWidth();
+    this->reallocateRoi();
+}
 
+void CamManager::setRoiHeight(float& value)
+{
+    m_roiRectangle.height = value*m_fboCamera.getHeight();
+    this->reallocateRoi();
+}
 
+void CamManager::reallocateRoi()
+{
+    m_fboRoi.allocate(m_roiRectangle.getWidth(),m_roiRectangle.getHeight());
+    m_fboRoi.begin(); ofClear(0); m_fboRoi.end();
+    
+    m_fboThresholded.allocate(m_roiRectangle.getWidth(),m_roiRectangle.getHeight());
+    m_fboThresholded.begin(); ofClear(0); m_fboThresholded.end();
+    
+    m_background.reset();
+}
