@@ -70,6 +70,8 @@ public:
     
     void setMotionDetected(bool value);
     
+    void setSerialConnected(bool value);
+    
     
 private:
     
@@ -114,7 +116,8 @@ private:
     ofParameter<float>        m_backgThreshold;
     ofParameter<float>        m_roiWidth;
     ofParameter<float>        m_roiHeight;
-    ofParameter<bool>       m_motionDetected;
+    ofParameter<bool>           m_motionDetected;
+    ofParameter<bool>           m_serialConnected;
 
     
     bool        m_showGui;  //It defines the whether the gui should be shown or not

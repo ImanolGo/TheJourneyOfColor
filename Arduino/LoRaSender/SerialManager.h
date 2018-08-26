@@ -103,7 +103,7 @@ void SerialManager::parseMessage(uint8_t* buf, uint8_t len)
             this->sendConnected();
             
           }
-          else if(this->isData(buf, len) && _connected){
+          else if(this->isData(buf, len)){
               this->loraManager->sendMessage(buf, len);
           } 
          

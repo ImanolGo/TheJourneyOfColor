@@ -157,6 +157,8 @@ void GuiManager::setupCameraGui()
     
     m_motionDetected.set("Motion", false);
     
+    m_serialConnected.set("Serial", AppManager::getInstance().getSerialManager().getConnected());
+    
     m_imgThreshold.set("Image Threshold", 128, 0, 255);
     m_imgThreshold.addListener(camManager, &CamManager::setImageThreshold);
     m_parameters.add(m_imgThreshold);
@@ -187,6 +189,7 @@ void GuiManager::setupCameraGui()
     
     
     ofxDatGuiFolder* folder = m_gui.addFolder("CAMERA", ofColor::green);
+    folder->addToggle("Serial", AppManager::getInstance().getSerialManager().getConnected());
     folder->addToggle("Motion");
     folder->addSlider(m_imgThreshold);
     //folder->addSlider(m_backgThreshold);
@@ -325,5 +328,10 @@ void GuiManager::onMatrixEvent(ofxDatGuiMatrixEvent e)
 void GuiManager::setMotionDetected(bool value)
 {
     m_gui.getToggle("Motion")->setChecked(value);
+}
+
+void GuiManager::setSerialConnected(bool value)
+{
+    m_gui.getToggle("Serial")->setChecked(value);
 }
 

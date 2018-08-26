@@ -82,8 +82,12 @@ void SerialManager::connect(int portNum)
     {
         ofLogNotice() <<"SerialManager::connect << Arduino connected to " << portNum;
         m_connected = true;
-        
     }
+    else{
+         m_connected = false;
+    }
+    
+    AppManager::getInstance().getGuiManager().setSerialConnected(m_connected);
 }
 
 void SerialManager::autoConnect()
@@ -106,6 +110,8 @@ void SerialManager::autoConnect()
             return;
         }
     }
+    
+    AppManager::getInstance().getGuiManager().setSerialConnected(m_connected);
 }
 
 
@@ -114,7 +120,7 @@ bool SerialManager::checkConnection(int portNum)
     if(m_serial.setup(portNum, BAUD_RATE)) //open a device number
     {
         this->sendConnection();
-        ofSleepMillis(200);
+        ofSleepMillis(300);
         if(this->receivedConnected()){
             ofLogNotice() <<"SerialManager::checkConnection << Arduino connected to " << portNum;
             return true;

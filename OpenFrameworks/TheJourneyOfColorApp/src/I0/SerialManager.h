@@ -52,6 +52,8 @@ public:
     
     void sendColors(vector<ofColor>& colors);
     
+    bool getConnected() const {return m_connected;}
+    
     
 private:
     
