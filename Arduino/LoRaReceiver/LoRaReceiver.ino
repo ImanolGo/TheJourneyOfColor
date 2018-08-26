@@ -23,10 +23,13 @@
  
 #include "LoraManager.h"
 #include "LedsManager.h"
+#include "SerialManager.h"
+#include "Config.h"
 
 
 LedsManager ledsManager;
 LoraManager loraManager(&ledsManager);
+SerialManager serialManager(&ledsManager);
 
 
 void setup() 
@@ -37,11 +40,13 @@ void setup()
 
     ledsManager.setup();
     loraManager.setup();
+    serialManager.setup();
 }
 
 void loop() 
 {
     ledsManager.update();
     loraManager.update();
+    serialManager.update();
  
 }

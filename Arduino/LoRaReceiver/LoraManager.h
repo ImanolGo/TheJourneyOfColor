@@ -8,13 +8,6 @@
 ///////////////////////////////////////////////////////////////////
 
 
-#define CHANNEL 0
-#define HEADER_SIZE 6
-#define SIZE_INDEX 3
-#define COMMAND_INDEX 4
-#define CHANNEL_INDEX 5
-#define COLOR_INDEX 6
-#define NUM_BYTES 3
 
 #pragma once
 #include "Arduino.h"
@@ -22,15 +15,7 @@
 #include <RH_RF95.h>
 #include "FastLED.h"
 #include "LedsManager.h"
-
-
-//for feather m0  
-#define RFM95_CS 8
-#define RFM95_RST 4
-#define RFM95_INT 3
-
-// Change to 434.0 or other frequency, must match RX's freq!
-#define RF95_FREQ 434.0
+#include "Config.h"
 
 
 class LoraManager
