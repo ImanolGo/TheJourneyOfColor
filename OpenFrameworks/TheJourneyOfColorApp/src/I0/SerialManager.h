@@ -27,12 +27,12 @@ class SerialManager: public Manager
     static const int BAUD_RATE;
     
     struct serial_header {
-        Byte f1;
-        Byte f2;
-        Byte f3;
-        Byte size;
-        Byte command;
-        Byte  channel;
+        unsigned char f1;
+        unsigned char f2;
+        unsigned char f3;
+        unsigned char size;
+        unsigned char command;
+        unsigned char  channel;
     };
     
 public:
