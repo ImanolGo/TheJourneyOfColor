@@ -81,6 +81,8 @@ void ColorManager::quantizeColors(const ofPixels & pixels)
        // return lhs.getBrightness() < rhs.getBrightness();
     });
     
+    AppManager::getInstance().getSerialManager().sendColors(m_colorPalette);
+    
     
    
     
