@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <group>
-	<Image_Threshold>48.71</Image_Threshold>
+	<Image_Threshold>118.9</Image_Threshold>
 	<Min_Area>1.56</Min_Area>
 	<Max_Area>121.54</Max_Area>
 	<LearningTime>0.34</LearningTime>

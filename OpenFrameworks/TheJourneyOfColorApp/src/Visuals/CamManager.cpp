@@ -54,11 +54,11 @@ void CamManager::setup()
 
 void CamManager::setupCamera()
 {
-    //m_camWidth = 1920;
-    //m_camHeight = 1080;
+    m_camWidth = 1920;
+    m_camHeight = 1080;
     
-    m_camWidth = 960;  // try to grab at this size.
-    m_camHeight =540;
+    //m_camWidth = 960;  // try to grab at this size.
+    //m_camHeight =540;
     
     //we can now get back a list of devices.
     vector<ofVideoDevice> devices = m_vidGrabber.listDevices();
