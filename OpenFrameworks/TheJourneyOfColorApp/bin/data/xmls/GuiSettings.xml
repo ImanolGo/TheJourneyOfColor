@@ -5,8 +5,8 @@
 	<Max_Area>121.54</Max_Area>
 	<LearningTime>0.34</LearningTime>
 	<Background_Threshold>51.57</Background_Threshold>
-	<Roi_Width>0.23</Roi_Width>
-	<Roi_Height>0.23</Roi_Height>
+	<Roi_Width>0.14</Roi_Width>
+	<Roi_Height>0.13</Roi_Height>
 	<Contrast>1.24</Contrast>
 	<Saturation>1.08</Saturation>
 	<Brightness>1.03</Brightness>

@@ -80,8 +80,8 @@ void CamManager::setupCamera()
 
 void CamManager::setupCv()
 {
-    int w = m_roiRectangle.getWidth();
-    int h = m_roiRectangle.getHeight();
+    int w = m_fboRoi.getWidth();
+    int h = m_fboRoi.getHeight();
     
     //m_contourFinder.setFindHoles(false);
     
@@ -89,6 +89,7 @@ void CamManager::setupCv()
     m_grayImg.allocate(w,h);
     m_diffImg.allocate(w,h);
     m_binaryImg.allocate(w,h);
+    m_grayPrevImg.allocate(w,h);
     
     m_hysteresis.setDelay(0.2, 0.2);
 }
