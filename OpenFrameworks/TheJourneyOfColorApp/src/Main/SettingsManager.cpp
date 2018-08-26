@@ -72,6 +72,8 @@ void SettingsManager::setDebugProperties()
         
         bool showCursor = xml.getAttribute("showCursor").getBoolValue();
         
+        m_serialPort = xml.getAttribute("serialPort").getIntValue();
+        
         if(showCursor){
             ofShowCursor();
         }
