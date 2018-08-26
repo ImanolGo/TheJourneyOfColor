@@ -247,7 +247,7 @@ void SerialManager::sendColors(vector<ofColor>& colors)
     if(!m_connected){
         return;
     }
-    
+
     
     ofLogNotice() <<"SerialManager::sendColors ->  ";
     int ledsPerPixel = 3;
@@ -261,7 +261,7 @@ void SerialManager::sendColors(vector<ofColor>& colors)
     
     for(int i = 0; i< colors.size(); i++)
     {
-        ofLogNotice() <<"SerialManager::sendColors -> r " <<  colors[i].r << ", g = " << colors[i].g << ", b = " << colors[i].b;
+        ofLogNotice() <<"SerialManager::sendColors -> r " <<  int(colors[i].r) << ", g = " << int(colors[i].g) << ", b = " << int(colors[i].b);
         message+=colors[i].r;
         message+=colors[i].g;
         message+=colors[i].b;
