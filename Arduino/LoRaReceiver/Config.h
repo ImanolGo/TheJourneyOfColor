@@ -21,7 +21,7 @@
 #define CLOCK_PIN    A4
 #define LED_TYPE    DOTSTAR
 #define COLOR_ORDER BGR
-#define NUM_LEDS 40
+#define NUM_LEDS 144
 #define NUM_COLOR_PALETTE 10
 #define MAX_BRIGHTNESS 100
 #define TEST_DELAY 500

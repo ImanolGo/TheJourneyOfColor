@@ -1,16 +1,16 @@
 <?xml version="1.0"?>
 <group>
-	<Image_Threshold>118.9</Image_Threshold>
+	<Image_Threshold>70.2</Image_Threshold>
 	<Min_Area>1.56</Min_Area>
 	<Max_Area>121.54</Max_Area>
 	<LearningTime>0.34</LearningTime>
 	<Background_Threshold>51.57</Background_Threshold>
 	<Roi_Width>0.39</Roi_Width>
 	<Roi_Height>0.39</Roi_Height>
-	<Contrast>1.24</Contrast>
-	<Saturation>1.08</Saturation>
-	<Brightness>1.03</Brightness>
-	<Gamma>1.04</Gamma>
+	<Contrast>0.91</Contrast>
+	<Saturation>0.87</Saturation>
+	<Brightness>1.04</Brightness>
+	<Gamma>0.92</Gamma>
 	<Blur>0</Blur>
 	<MinInput>0</MinInput>
 	<MaxInput>1</MaxInput>

@@ -81,6 +81,9 @@ void ColorManager::quantizeColors(const ofPixels & pixels)
        // return lhs.getBrightness() < rhs.getBrightness();
     });
     
+//    for(auto& color: m_colorPalette){
+//        color.setSaturation(255);
+//    }
     AppManager::getInstance().getSerialManager().sendColors(m_colorPalette);
     
     

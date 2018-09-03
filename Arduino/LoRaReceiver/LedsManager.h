@@ -16,7 +16,7 @@ class LedsManager{
 
   public:
     
-    LedsManager() {}
+    LedsManager();
     
     void setup();
     void update();
@@ -28,23 +28,45 @@ class LedsManager{
   private:
 
     void setupLeds();
+    void setupPositions();
+    void setupColorPalettes();
     void initTest();
+    void checkFps();
+    void noise16();
 
     CRGB leds[NUM_LEDS]; 
-    CRGB palette[NUM_COLOR_PALETTE];    
+    CRGB palette[NUM_COLOR_PALETTE];
+    CRGBPalette16 currentPalette;
+    CRGBPalette16 targetPalette;
+
+    uint16_t real_x[NUM_LEDS]; 
+    uint16_t real_y[NUM_LEDS];    
+
+    uint16_t scale;
+    uint32_t speed;
+    uint8_t maxChanges;
 };
 
+LedsManager::LedsManager()
+{
+   this->scale = 400;
+   this->speed = 8;
+   this->maxChanges = 24; 
+}
+ 
 void LedsManager::setup()
 {
     Serial.println("LedsManager::setup");
     this->setupLeds(); 
+    this->setupPositions();
+    this->setupColorPalettes();
     this->initTest();
 }
 
 
 void LedsManager::setupLeds()
 {
-   FastLED.addLeds<LED_TYPE,DATA_PIN,CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS);
+   FastLED.addLeds<LED_TYPE,DATA_PIN,CLOCK_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection( TypicalLEDStrip );
  
    //FastLED.setMaxPowerInVoltsAndMilliamps (5, 2100);
    //FastLED.setDither( 0 );
@@ -53,9 +75,62 @@ void LedsManager::setupLeds()
    Serial.println("LedsManager::setupLeds");
 }
 
+void LedsManager::setupPositions()
+{
+   uint16_t shift_x = random16();                         
+   uint16_t shift_y = random16();        
+    
+   for(uint16_t i = 0; i < NUM_LEDS; i++)
+   {
+        float rad = float(i)*TWO_PI/NUM_LEDS;
+        real_x[i] = ( (cos(rad) + 1.0)*NUM_LEDS )*this->scale; 
+        real_y[i] = ( (sin(rad) + 1.0)*NUM_LEDS )*this->scale; 
+   }
+   
+   Serial.println("LedsManager::setupPositions");
+}
+
+void LedsManager::setupColorPalettes()
+{
+  this->currentPalette = CRGBPalette16(
+                                   CRGB::Black, CRGB::Black, CRGB::Black, CHSV(0, 255,4),
+                                   CHSV(0, 255, 8), CRGB::Red, CRGB::Red, CRGB::Red,                                   
+                                   CRGB::DarkOrange,CRGB::Orange, CRGB::Orange, CRGB::Orange,
+                                   CRGB::Yellow, CRGB::Yellow, CRGB::Gray, CRGB::Gray);
+
+  this->targetPalette = this->currentPalette;
+}
+
 void LedsManager::update()
 {
+   this->checkFps();
+   this->noise16();
+   nblendPaletteTowardPalette( this->currentPalette, this->targetPalette, this->maxChanges);
+   FastLED.show();
     
+}
+
+void LedsManager::checkFps()
+{
+    EVERY_N_MILLISECONDS(1000) 
+    {
+      Serial.print("LedsManager::fsp-> ");
+      Serial.println(LEDS.getFPS());                       
+   }
+}
+
+void LedsManager::noise16()
+{
+    uint32_t real_z = millis() *this->speed;                          // the z position becomes quickly incremented
+    for (uint16_t i = 0; i < NUM_LEDS; i++) 
+    {
+      uint8_t noise = inoise16(real_x[i], real_y[i], real_z)>>8;   // get the noise data and scale it down
+      uint8_t bri = noise;                           // map LED color based on noise data
+      uint8_t index   = noise;
+  
+      leds[i] = ColorFromPalette(currentPalette, index, bri, LINEARBLEND);   // With that value, look up the 8 bit colour palette value and assign it to the current LED.
+    
+    }
 }
 
 void LedsManager::setAllBlack()
@@ -125,6 +200,8 @@ void LedsManager::initTest() //runs at board boot to make sure pixels are workin
   FastLED.delay(TEST_DELAY);
   Serial.println("Show Time...");
   FastLED.clear();
+  fill_solid(leds,NUM_LEDS, CRGB::Black);
+   FastLED.show();
   //FastLED.setBrightness(MAX_BRIGHTNESS);
 }
 
