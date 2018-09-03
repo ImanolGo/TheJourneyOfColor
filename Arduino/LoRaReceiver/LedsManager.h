@@ -49,7 +49,7 @@ class LedsManager{
 
 LedsManager::LedsManager()
 {
-   this->scale = 400;
+   this->scale = 500;
    this->speed = 8;
    this->maxChanges = 24; 
 }
@@ -60,7 +60,7 @@ void LedsManager::setup()
     this->setupLeds(); 
     this->setupPositions();
     this->setupColorPalettes();
-    this->initTest();
+    //this->initTest();
 }
 
 
@@ -70,6 +70,7 @@ void LedsManager::setupLeds()
  
    //FastLED.setMaxPowerInVoltsAndMilliamps (5, 2100);
    //FastLED.setDither( 0 );
+   FastLED.setBrightness(MAX_BRIGHTNESS);       // set to full power
    FastLED.clear();   
    this->setAllBlack();
    Serial.println("LedsManager::setupLeds");
@@ -112,7 +113,7 @@ void LedsManager::update()
 
 void LedsManager::checkFps()
 {
-    EVERY_N_MILLISECONDS(1000) 
+    EVERY_N_MILLISECONDS(FPS_CHECK_TIME_MS) 
     {
       Serial.print("LedsManager::fsp-> ");
       Serial.println(LEDS.getFPS());                       
@@ -128,7 +129,7 @@ void LedsManager::noise16()
       uint8_t bri = noise;                           // map LED color based on noise data
       uint8_t index   = noise;
   
-      leds[i] = ColorFromPalette(currentPalette, index, bri, LINEARBLEND);   // With that value, look up the 8 bit colour palette value and assign it to the current LED.
+      leds[i] = ColorFromPalette(this->currentPalette, index, bri, LINEARBLEND);   // With that value, look up the 8 bit colour palette value and assign it to the current LED.
     
     }
 }
@@ -158,7 +159,20 @@ void LedsManager::setColor(CRGB color)
 void LedsManager::setColorPalette(CRGB* palette)
 {
    CRGB* pal = palette;  
-   this->setColor(pal[0]);
+   uint8_t ind1 = random(NUM_COLOR_PALETTE);
+   uint8_t ind2 = random(NUM_COLOR_PALETTE);
+   
+   //this->targetPalette = CRGBPalette16(color1,color2,color3,color4);
+    
+fill_solid( this->targetPalette, 16, CRGB::Black);
+//    // and set every fourth one to a color.
+  this->targetPalette[0] = palette[0];
+  this->targetPalette[4] = palette[1];
+  this->targetPalette[8] = palette[2];
+  this->targetPalette[12] = palette[3];
+
+  
+   //this->setColor(pal[0]);
 }
 
 

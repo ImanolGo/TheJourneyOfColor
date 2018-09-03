@@ -7,9 +7,9 @@
 	<Background_Threshold>51.57</Background_Threshold>
 	<Roi_Width>0.39</Roi_Width>
 	<Roi_Height>0.39</Roi_Height>
-	<Contrast>0.91</Contrast>
-	<Saturation>0.87</Saturation>
-	<Brightness>1.04</Brightness>
+	<Contrast>1.98</Contrast>
+	<Saturation>1.08</Saturation>
+	<Brightness>0.63</Brightness>
 	<Gamma>0.92</Gamma>
 	<Blur>0</Blur>
 	<MinInput>0</MinInput>
