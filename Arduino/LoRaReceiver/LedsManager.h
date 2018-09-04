@@ -162,14 +162,14 @@ void LedsManager::setColorPalette(CRGB* palette)
    uint8_t ind1 = random(NUM_COLOR_PALETTE);
    uint8_t ind2 = random(NUM_COLOR_PALETTE);
    
-   //this->targetPalette = CRGBPalette16(color1,color2,color3,color4);
+  // this->targetPalette = CRGBPalette16(pal[0],pal[1],pal[2],pal[3]);
     
 fill_solid( this->targetPalette, 16, CRGB::Black);
 //    // and set every fourth one to a color.
-  this->targetPalette[0] = palette[0];
-  this->targetPalette[4] = palette[1];
-  this->targetPalette[8] = palette[2];
-  this->targetPalette[12] = palette[3];
+  this->targetPalette[0] = pal[ind1];
+  this->targetPalette[4] = pal[ind2];
+  this->targetPalette[8] = pal[ind1];
+  this->targetPalette[12] = pal[ind2];
 
   
    //this->setColor(pal[0]);

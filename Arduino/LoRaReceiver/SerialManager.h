@@ -40,6 +40,7 @@ class SerialManager
     int BtoI(byte a, byte b);
     CRGB  getRGBColor(uint8_t* _buffer, uint8_t bufferSize);
     CRGB* getColorPalette(unsigned char* pbuff, int count);
+    CRGB palette[NUM_COLOR_PALETTE];
 
     bool _connected;
   
@@ -143,21 +144,19 @@ CRGB* SerialManager::getColorPalette(unsigned char* pbuff, int count)
     if(numLeds > NUM_COLOR_PALETTE){
        numLeds = NUM_COLOR_PALETTE;
     }
-  
-    CRGB palette[NUM_COLOR_PALETTE];
     
     int offset = 0; //reset RGB channel assignment to 0 each time through loop.
     for (int i = 0; i < numLeds; i++) //loop to assign 3 channels to each pixel
     {
-        palette[i] = CRGB(pbuff[HEADER_SIZE + offset], pbuff[HEADER_SIZE + (offset +1)], pbuff[HEADER_SIZE + (offset +2)]);
+        this->palette[i] = CRGB(pbuff[HEADER_SIZE + offset], pbuff[HEADER_SIZE + (offset +1)], pbuff[HEADER_SIZE + (offset +2)]);
         offset +=CHANNEL_WIDTH; //increase last channel number by channel width
 
-          Serial.print("LoraManager::getColorPalette, r = ");
-          Serial.print(palette[i].r);
+          Serial.print("SerialManager::getColorPalette, r = ");
+          Serial.print(this->palette[i].r);
           Serial.print(", g = ");
-          Serial.print(palette[i].g);
+          Serial.print(this->palette[i].g);
           Serial.print(", b = ");
-          Serial.println(palette[i].b);
+          Serial.println(this->palette[i].b);
     }
   
     return palette;

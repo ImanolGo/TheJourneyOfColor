@@ -9,8 +9,8 @@
 	<Roi_Height>0.39</Roi_Height>
 	<Contrast>1.98</Contrast>
 	<Saturation>1.08</Saturation>
-	<Brightness>0.63</Brightness>
-	<Gamma>0.92</Gamma>
+	<Brightness>1.15</Brightness>
+	<Gamma>0.34</Gamma>
 	<Blur>0</Blur>
 	<MinInput>0</MinInput>
 	<MaxInput>1</MaxInput>
